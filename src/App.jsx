@@ -1,36 +1,43 @@
 import { useState } from 'react';
 import { puppyList } from './data.js';
-
-// function App() {
-//   const [puppies, setPuppies] = useState(puppyList);
-
-//   return (
-//     <div>
-//       { 
-//         puppies.map((puppy) => {
-//           return <p>{puppy.name}</p>
-//         })
-//       }
-//     </div>
-//   );
-// }
+import './App.css'
 
 function App() {
-
   const [puppies, setPuppies] = useState(puppyList);
+  const [featPupId, setFeatPupId] = useState(null);
 
-  console.log("puppyList: ", puppyList);
+  function handleClick(puppyId) {
+    setFeatPupId(puppyId);
+  }
 
-  return (
-    <div className="App">
-      {
-        puppies.map((puppy) => {
-             return <p key={puppy.id}>{puppy.name}</p>;
-           })
-       }
-    </div>
-  );
-}
+   // Find the puppy with the matching ID
+   const featuredPup = puppies.find((pup) => pup.id === featPupId);
+
+   // Log the featured puppy
+   console.log(featuredPup);
+ 
+   return (
+     <div className="App">
+       {puppies.map((puppy) => {
+         return (
+           <p onClick={() => handleClick(puppy.id)} key={puppy.id} className="dog-name">
+             {puppy.name}
+           </p>
+         );
+       })}
+       {featPupId && (
+         <div className="data-display">
+           <h2>{featuredPup.name}</h2>
+           <ul>
+             <li>Age: {featuredPup.age}</li>
+             <li>Email: {featuredPup.email}</li>
+           </ul>
+         </div>
+       )}
+     </div>
+   );
+ }
+
 
 export default App;
 
